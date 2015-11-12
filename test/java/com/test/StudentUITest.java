@@ -26,12 +26,24 @@ public class StudentUITest {
 		OutputStream outputStream = new ByteArrayOutputStream();
 		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream));
 		
-		StudentUI ui = new StudentUI(reader, writer);
-		ui.run();
+		InputStream consoleIn = System.in;
+		PrintStream consoleOut = System.out;
 		
-		assertEquals(expectedOutput.toString(), outputStream.toString());
-		assertStudents(ui.getAddedStudents());
+		System.setIn(inputStream);
+		System.setOut(new PrintStream(outputStream));
 		
+		
+		try {
+			StudentUI ui = new StudentUI();
+			ui.run();
+			
+			assertEquals(expectedOutput.toString(), outputStream.toString());
+			assertStudents(ui.getAddedStudents());
+		}
+		finally {
+			System.setIn(consoleIn);
+			System.setOut(consoleOut);
+		}
 	}
 	
 	private String line(String input){

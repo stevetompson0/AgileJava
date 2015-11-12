@@ -15,9 +15,9 @@ public class StudentUI {
 	
 	private List<Student> students = new ArrayList<Student>();
 	
-	public StudentUI(BufferedReader reader, BufferedWriter writer){
-		this.reader = reader;
-		this.writer = writer;
+	public StudentUI(){
+		this.reader = new BufferedReader(new InputStreamReader(System.in));
+		this.writer = new BufferedWriter(new OutputStreamWriter(System.out));
 	}
 	
 	public List<Student> getAddedStudents(){
@@ -51,6 +51,10 @@ public class StudentUI {
 		writer.write(line);
 		writer.newLine();
 		writer.flush();
+	}
+	
+	public static void main(String[] args) throws IOException{
+		new StudentUI().run();
 	}
 	
 
