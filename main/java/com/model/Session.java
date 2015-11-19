@@ -81,6 +81,10 @@ private static int count;
 	public void setNumberOfCredits(int numberOfCredits){
 		this.numberOfCredits = numberOfCredits;
 	}
+	
+	public int getNumberOfCredits(){
+		return numberOfCredits;
+	}
 
 	@Override
 	public int compareTo(Session that) {
