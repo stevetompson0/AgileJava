@@ -1,9 +1,9 @@
 package test.java.com.test;
 import main.java.com.model.Course;
 import main.java.com.model.CourseSession;
-import main.java.com.model.DateUtil;
 import main.java.com.model.Session;
 import main.java.com.model.Student;
+import main.java.com.util.DateUtil;
 
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;

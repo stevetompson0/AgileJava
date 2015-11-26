@@ -4,14 +4,20 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-abstract public class Session implements Comparable<Session>{
-private static int count;
+abstract public class Session implements Comparable<Session>, Serializable{
+
+	private static final long serialVersionUID = 1L;
+	private static int count;
 	
 	private Course course;
-	private ArrayList<Student> students = new ArrayList<Student>();
+	private transient ArrayList<Student> students = new ArrayList<Student>();
 	protected Date startDate;
 	private int numberOfCredits;
 	private URL url;
@@ -81,6 +87,10 @@ private static int count;
 	public void setNumberOfCredits(int numberOfCredits){
 		this.numberOfCredits = numberOfCredits;
 	}
+	
+	public int getNumberOfCredits(){
+		return numberOfCredits;
+	}
 
 	@Override
 	public int compareTo(Session that) {
@@ -123,6 +133,25 @@ private static int count;
 	
 	private void log(Exception e){
 		e.printStackTrace();
+	}
+	
+	
+	private void writeObject(ObjectOutputStream output) throws IOException{
+		output.defaultWriteObject();
+		output.writeInt(getNumberOfStudents());
+		for (Student student: students){
+			output.writeUTF(student.getLastName());
+		}
+	}
+	
+	private void readObject(ObjectInputStream input) throws ClassNotFoundException, IOException {
+		input.defaultReadObject();
+		students = new ArrayList<Student>();
+		int size = input.readInt();
+		for (int i = 0; i < size; i++){
+			String lastName = input.readUTF();
+			students.add(Student.findStudentByLastName(lastName));
+		}
 	}
 
 }

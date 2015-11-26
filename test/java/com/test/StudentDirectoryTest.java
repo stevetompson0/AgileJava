@@ -8,17 +8,22 @@ import main.java.com.model.StudentDirectory;
 import org.junit.Before;
 import static org.junit.Assert.assertEquals;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import org.junit.After;
+
 
 public class StudentDirectoryTest {
 	private StudentDirectory dir;
 	
 	@Before
-	public void setUp(){
+	public void setUp() throws IOException{
 		dir = new StudentDirectory();
 	}
 	
 	@Test
-	public void testStoreAndRetrieve(){
+	public void testStoreAndRetrieve() throws IOException{
 		final int numberOfStudents = 10;
 		for (int i=0; i < numberOfStudents; i++){
 			addStudent(dir, i);
@@ -29,7 +34,28 @@ public class StudentDirectoryTest {
 		}
 	}
 	
-	private void addStudent(StudentDirectory directory, int i){
+	@After
+	public void tearDown() throws IOException{
+		dir.close();
+		dir.remove();
+	}
+	
+	@Test
+	public void testRandomAccess() throws IOException{
+		final int numberOfStudents = 10;
+		for (int i = 0; i < numberOfStudents; i++){
+			addStudent(dir, i);
+		}
+		dir.close();
+		
+		dir = new StudentDirectory();
+		for (int i=0; i < numberOfStudents; i++){
+			verifyStudentLookup(dir, i);
+		}
+		
+	}
+	
+	private void addStudent(StudentDirectory directory, int i) throws IOException{
 		String id = "" + i;
 		Student student = new Student(id);
 		student.setId(id);
@@ -37,7 +63,7 @@ public class StudentDirectoryTest {
 		directory.add(student);
 	}
 	
-	private void verifyStudentLookup(StudentDirectory directory, int i){
+	private void verifyStudentLookup(StudentDirectory directory, int i) throws IOException{
 		String id = "" + i;
 		Student student = directory.findById(id);
 		assertEquals(id, student.getLastName());
