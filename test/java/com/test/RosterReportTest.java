@@ -13,8 +13,7 @@ import main.java.com.model.CourseSession;
 import main.java.com.model.RosterReport;
 import main.java.com.model.Session;
 import main.java.com.model.Student;
-
-import main.java.com.model.DateUtil;
+import main.java.com.util.DateUtil;
 
 public class RosterReportTest {
 	private Session session;

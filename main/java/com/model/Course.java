@@ -1,6 +1,8 @@
 package main.java.com.model;
 
-public class Course {
+public class Course  implements java.io.Serializable{
+	
+	private static final long serialVersionUID = 1L;
 	
 	private String department;
 	private String number;

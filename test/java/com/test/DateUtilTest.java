@@ -7,7 +7,7 @@ import java.util.GregorianCalendar;
 
 import org.junit.Test;
 
-import main.java.com.model.DateUtil;
+import main.java.com.util.DateUtil;
 
 public class DateUtilTest extends DateUtil {
 	@Test

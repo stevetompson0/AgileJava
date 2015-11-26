@@ -1,12 +1,18 @@
 package main.java.com.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class Student {
+public class Student implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public enum Grade {
 		A(4), 
 		B(3), 
@@ -131,6 +137,10 @@ public class Student {
 	
 	public String getId(){
 		return id;
+	}
+	
+	public static Student findStudentByLastName(String lastName){
+		return new Student(lastName);
 	}
 	
 }

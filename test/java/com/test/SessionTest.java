@@ -10,10 +10,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import main.java.com.model.Course;
-import main.java.com.model.DateUtil;
 import main.java.com.model.Session;
 import main.java.com.model.SessionException;
 import main.java.com.model.Student;
+import main.java.com.util.DateUtil;
 
 abstract public class SessionTest{
 	protected static final int CREDITS = 3;

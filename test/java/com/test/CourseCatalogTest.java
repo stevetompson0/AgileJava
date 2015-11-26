@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.List;
 
 import main.java.com.model.*;
+import main.java.com.util.DateUtil;
 
 public class CourseCatalogTest {
 	private CourseCatalog catalog;
@@ -30,10 +31,14 @@ public class CourseCatalogTest {
 		
 		catalog.add(session1);
 		catalog.add(session2);
+		
+		Student student = new Student("a");
+		session2.enroll(student);
 	}
+
 	
 	@Test
-	public void testLoadAndStore() throws IOException{
+	public void testLoadAndStore() throws Exception{
 		final String filename = "CourseCatalogTest.testAdd.txt";
 		catalog.store(filename);
 		catalog.clearAll();
@@ -45,6 +50,12 @@ public class CourseCatalogTest {
 		assertEquals(2, sessions.size());
 		assertSession(session1, sessions.get(0));
 		assertSession(session2, sessions.get(1));
+		
+		Session session = sessions.get(1);
+		assertSession(session2, session);
+		
+		Student student = session.getAllStudents().get(0);
+		assertEquals("a", student.getLastName());
 		
 	}
 	
