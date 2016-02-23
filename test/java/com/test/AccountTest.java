@@ -1,17 +1,24 @@
 package test.java.com.test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import com.jimbob.ach.AchCredentials;
+import com.jimbob.ach.AchResponse;
+import com.jimbob.ach.AchStatus;
+import com.jimbob.ach.AchTransactionData;
+
 import main.java.com.model.Account;
 
 public class AccountTest {
-	private static final String ABA = "102000012";
-	private static final String ACCOUNT_NUMBER = "194431518811";
+	static final String ABA = "102000012";
+	static final String ACCOUNT_NUMBER = "194431518811";
 	
 	private Account account;
 	
@@ -41,8 +48,21 @@ public class AccountTest {
 	
 	@Test
 	public void testTransferFromBank(){
-		account.setAch(new com.jimbob.ach.JimBobAch());
-	
+		//account.setAch(new com.jimbob.ach.JimBobAch());
+		account.setAch(new MockAch() {
+			@Override
+			public AchResponse issueDebit(AchCredentials credentials, AchTransactionData data) {
+				assertTrue(data.account.equals(AccountTest.ACCOUNT_NUMBER));
+				assertTrue(data.aba.equals(AccountTest.ABA));
+				
+				AchResponse response = new AchResponse();
+				response.timestamp = new Date();
+				response.traceCode = "1";
+				response.status = AchStatus.SUCCESS;
+				return response;
+			}
+		});
+		
 		final BigDecimal amount = new BigDecimal("50.00");
 		account.transferFromBank(amount);
 		
